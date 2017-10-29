@@ -1,0 +1,128 @@
+﻿<Controls:MetroWindow  x:Class="Simulacion.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                       GlowBrush="{DynamicResource AccentColorBrush}"
+        BorderThickness="1"
+        mc:Ignorable="d"
+        Background="FloralWhite"
+        WindowTitleBrush="Teal"
+        Title="MainWindow" Height="350" Width="525">
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <StackPanel   Background="DimGray" Grid.RowSpan="3">
+            <TextBlock Margin="5" Foreground="White" VerticalAlignment="Center" Text="Interaciones: "/>
+            <TextBox TextAlignment="Center" TextChanged="tbx_interaciones_TextChanged" x:Name="tbx_interaciones" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100" ></TextBox>
+            <TextBlock Margin="5" Foreground="White" VerticalAlignment="Center" Text="A: "/>
+            <TextBox TextAlignment="Center" TextChanged="tbx_A_TextChanged" x:Name="tbx_A" BorderBrush="Teal" Margin="5,12,5,11.6" Foreground="White" VerticalAlignment="Center" MinWidth="100" ></TextBox>
+            <TextBlock Text="Xn" Margin="5" Foreground="White" VerticalAlignment="Center" />
+            <TextBox TextAlignment="Center" TextChanged="tbx_Xn_TextChanged" x:Name="tbx_Xn" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
+            <TextBlock Text="C" Margin="5" Foreground="White" VerticalAlignment="Center" />
+            <TextBox TextAlignment="Center" TextChanged="tbx_C_TextChanged" x:Name="tbx_C" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
+            <TextBlock Text="M" Margin="5" Foreground="White" VerticalAlignment="Center" />
+            <TextBox TextAlignment="Center" TextChanged="tbx_M_TextChanged" x:Name="tbx_M" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
+
+            <TextBlock Text="Inv inicial" Margin="5" Foreground="White" VerticalAlignment="Center" />
+            <TextBox TextAlignment="Center" x:Name="tbx_invInicial" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
+            <TextBlock Text="R" Margin="5" Foreground="White" VerticalAlignment="Center" />
+            <TextBox TextAlignment="Center"  x:Name="tbx_Q" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
+            <TextBlock Text="Q" Margin="5" Foreground="White" VerticalAlignment="Center" />
+            <TextBox TextAlignment="Center" x:Name="tbx_R" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
+
+            <Button x:Name="btn_ejemplo" Content="Ejemplo" Click="btn_ejemplo_Click" BorderBrush="Transparent"/>
+            <Button x:Name="btn_guardar" Click="btn_guardar_Click" Content="Guardar" BorderBrush="Transparent"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+            <StackPanel HorizontalAlignment="Center">
+                
+              
+                <materialDesign:Card MaxWidth="950" Margin="20">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="20" Foreground="Teal">Numeros</TextBlock>
+                        <DataGrid Grid.Row="1"  Background="White" ColumnWidth="*" x:Name="dg_numeros" HorizontalContentAlignment="Center" Margin="5"/>
+                    </Grid>
+                </materialDesign:Card>
+                
+                <materialDesign:Card MaxWidth="950" Margin="20">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="20" Foreground="Teal">Demanda Mensual</TextBlock>
+                        <DataGrid Background="White"  AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_demandamensual_CellEditEnding" x:Name="dg_demandamensual"  Grid.Row="1" Margin="5" SelectionChanged="dg_demandamensual_SelectionChanged"/>
+                    </Grid>
+                </materialDesign:Card>
+
+
+                <materialDesign:Card MaxWidth="950" Margin="20">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="20" Foreground="Teal">Factores Estacionales</TextBlock>
+                        <DataGrid Background="White" AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_factores_CellEditEnding"  x:Name="dg_factores" Grid.Row="1" Margin="5"/>
+                    </Grid>
+                </materialDesign:Card>
+              
+                <materialDesign:Card MaxWidth="950" Margin="20">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="20" Foreground="Teal">Tiempo de entrega</TextBlock>
+                        <DataGrid Grid.Row="1" Background="White" AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_tiempoEntrega_CellEditEnding" SelectedCellsChanged="dg_tiempoEntrega_SelectedCellsChanged" SelectionChanged="dg_tiempoEntrega_SelectionChanged" x:Name="dg_tiempoEntrega" Margin="5"/>
+
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card MaxWidth="950" Margin="20">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontSize="20" Foreground="Teal">Procedimiento</TextBlock>
+                        <DataGrid Grid.Row="1" Background="White" AutoGenerateColumns="false"  x:Name="dg_procedimiento" IsReadOnly="True" ColumnWidth="*" Margin="5"/>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card MaxWidth="950" Margin="20">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Margin="5" FontSize="20" Foreground="Teal">Resultados</TextBlock>
+                        <DataGrid Background="White" Grid.Row="1"  x:Name="dg_resulatados" AutoGenerateColumns="false" ColumnWidth="*" Margin="5"/>
+                    </Grid>
+                   
+                </materialDesign:Card>
+              
+            </StackPanel>
+        </ScrollViewer>
+     
+    </Grid>
+    
+</Controls:MetroWindow>
