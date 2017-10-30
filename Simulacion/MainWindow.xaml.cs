@@ -218,11 +218,13 @@ namespace Simulacion
                 && tbx_Xn.Text != "" 
                 && tbx_C.Text != ""
                 && tbx_M.Text != ""
-                &&tbx_interaciones.BorderBrush != Brushes.Red
+                && tbx_decimales.Text != ""
+                && tbx_interaciones.BorderBrush != Brushes.Red
                 && tbx_A.BorderBrush != Brushes.Red
                 && tbx_Xn.BorderBrush != Brushes.Red
                 && tbx_C.BorderBrush != Brushes.Red
-                && tbx_M.BorderBrush != Brushes.Red)
+                && tbx_M.BorderBrush != Brushes.Red
+                && tbx_decimales.BorderBrush!= Brushes.Red)
                 return true;
             else
                 return false;
@@ -241,34 +243,23 @@ namespace Simulacion
             }
         }
 
-        private double formula(double a,double Xn,double c, double m)
-        {
-            double Xn1 = ((a * Xn) + c) % m;
-            return (Xn1);
-        }
-
-        private double aleatorio(double Xn1,double m)
-        {
-            double ri = Xn1 / m;
-            return (ri);
-        }
-
         private void GenerarNumeros()
         {
-            double A = double.Parse(tbx_A.Text);
-            double Xn = double.Parse(tbx_Xn.Text);
-            double C = double.Parse(tbx_C.Text);
-            double M = double.Parse(tbx_M.Text);
+            int decimales = int.Parse(tbx_decimales.Text);
+            double A = Math.Round(double.Parse(tbx_A.Text), decimales);
+            double Xn = Math.Round(double.Parse(tbx_Xn.Text), decimales);
+            double C = Math.Round(double.Parse(tbx_C.Text), decimales);
+            double M = Math.Round(double.Parse(tbx_M.Text), decimales);
             dg_numeros.Items.Clear();
-            int Contador = 0;
-            while (Contador <= double.Parse(tbx_interaciones.Text))
+            double Aleatorio;
+            for (int i = 0; i < double.Parse(tbx_interaciones.Text); i++)
             {
-                double F1 = formula(A, Xn, C, M);
-                double A1 = aleatorio(Math.Round(F1, 5), M);
-                dg_numeros.Items.Add(new NumeroAleatorio {no=Contador.ToString(),numero=Math.Round(A1, 5).ToString()});
-                Xn = ((A * Xn) + C);
-                Xn = Math.Round(Xn, 5);
-                Contador++;
+                Xn = ((A * Xn) + C) % M;
+                if (Xn > 0)
+                  Aleatorio = Math.Round( Aleatorio = Xn / M,decimales);
+                else
+                    Aleatorio = 0;
+                dg_numeros.Items.Add(new NumeroAleatorio { no=(i+1).ToString(),numero= Aleatorio.ToString()});
             }
         }
 
@@ -707,6 +698,31 @@ namespace Simulacion
                 tbx_R.Text = "";
 
             }
+        }
+
+        private void test_Click(object sender, RoutedEventArgs e)
+        {
+            ejemplo();
+        }
+
+        private void btn_helpNumeros_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btn_editarNumeros_Click(object sender, RoutedEventArgs e)
+        {
+            if (dwh_numeros.IsTopDrawerOpen == false)
+                dwh_numeros.IsTopDrawerOpen = true;
+            else
+                dwh_numeros.IsTopDrawerOpen = false;
+        }
+
+        private void tbx_decimales_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ValidarCampo((TextBox)sender);
+            if (NotNulls())
+                GenerarNumeros();
         }
     }
 }

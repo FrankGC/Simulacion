@@ -4,19 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-                       GlowBrush="{DynamicResource AccentColorBrush}"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        GlowBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"
         mc:Ignorable="d"
         Background="FloralWhite"
-        WindowTitleBrush="Teal"
-        Title="MainWindow" Height="350" Width="525">
+        WindowTitleBrush="{StaticResource HighlightBrush}"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Title="MainWindow" MinWidth="750" MinHeight="450">
 
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -24,18 +25,9 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <StackPanel   Background="DimGray" Grid.RowSpan="3">
-            <TextBlock Margin="5" Foreground="White" VerticalAlignment="Center" Text="Interaciones: "/>
-            <TextBox TextAlignment="Center" TextChanged="tbx_interaciones_TextChanged" x:Name="tbx_interaciones" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100" ></TextBox>
-            <TextBlock Margin="5" Foreground="White" VerticalAlignment="Center" Text="A: "/>
-            <TextBox TextAlignment="Center" TextChanged="tbx_A_TextChanged" x:Name="tbx_A" BorderBrush="Teal" Margin="5,12,5,11.6" Foreground="White" VerticalAlignment="Center" MinWidth="100" ></TextBox>
-            <TextBlock Text="Xn" Margin="5" Foreground="White" VerticalAlignment="Center" />
-            <TextBox TextAlignment="Center" TextChanged="tbx_Xn_TextChanged" x:Name="tbx_Xn" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
-            <TextBlock Text="C" Margin="5" Foreground="White" VerticalAlignment="Center" />
-            <TextBox TextAlignment="Center" TextChanged="tbx_C_TextChanged" x:Name="tbx_C" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
-            <TextBlock Text="M" Margin="5" Foreground="White" VerticalAlignment="Center" />
-            <TextBox TextAlignment="Center" TextChanged="tbx_M_TextChanged" x:Name="tbx_M" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
-
+            
+        
+        <StackPanel  Visibility="Hidden" Background="DimGray" Orientation="Horizontal" Grid.ColumnSpan="3">
             <TextBlock Text="Inv inicial" Margin="5" Foreground="White" VerticalAlignment="Center" />
             <TextBox TextAlignment="Center" x:Name="tbx_invInicial" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
             <TextBlock Text="R" Margin="5" Foreground="White" VerticalAlignment="Center" />
@@ -46,29 +38,103 @@
             <Button x:Name="btn_ejemplo" Content="Ejemplo" Click="btn_ejemplo_Click" BorderBrush="Transparent"/>
             <Button x:Name="btn_guardar" Click="btn_guardar_Click" Content="Guardar" BorderBrush="Transparent"/>
         </StackPanel>
-
-        <ScrollViewer Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2">
+        <materialDesign:DrawerHost Grid.ColumnSpan="3" x:Name="draw">
+            <StackPanel
+			Margin="16"
+			HorizontalAlignment="Center"
+			Orientation="Horizontal">
+                <TextBlock Margin="4" VerticalAlignment="Center">TOP BANANA</TextBlock>
+                <Button
+				Margin="4"
+				VerticalAlignment="Center"
+				Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+				Style="{DynamicResource MaterialDesignFlatButton}">
+                    CLOSE ALL
+                </Button>
+                <Button
+				Margin="4"
+				VerticalAlignment="Center"
+				Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+				CommandParameter="{x:Static Dock.Top}"
+				Style="{DynamicResource MaterialDesignFlatButton}">
+                    CLOSE THIS
+                </Button>
+            </StackPanel>
+        </materialDesign:DrawerHost>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
             <StackPanel HorizontalAlignment="Center">
-                
-              
+               
                 <materialDesign:Card MaxWidth="950" Margin="20">
-                    <Grid Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="Teal">Numeros</TextBlock>
-                        <DataGrid Grid.Row="1"  Background="White" ColumnWidth="*" x:Name="dg_numeros" HorizontalContentAlignment="Center" Margin="5"/>
-                    </Grid>
+                    <materialDesign:DrawerHost Grid.Row="2" x:Name="dwh_numeros" 
+                    HorizontalAlignment="Center"
+	                VerticalAlignment="Center"
+	                BorderBrush="{DynamicResource MaterialDesignDivider}"
+	                BorderThickness="2">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Numeros</TextBlock>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+
+                                    <Button x:Name="btn_editarNumeros" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
+                                            Margin="2" ToolTip="Editar parametros"
+                                            Click="btn_editarNumeros_Click">
+                                        <materialDesign:PackIcon Kind="Pencil" />
+                                    </Button>
+                                    <Button x:Name="btn_helpNumeros" Click="btn_helpNumeros_Click" 
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Margin="2" ToolTip="Ayuda">
+                                        <materialDesign:PackIcon Kind="Information" />
+                                    </Button>
+                                    <materialDesign:PopupBox
+                                        PlacementMode="BottomAndAlignRightEdges"                                       
+                                        StaysOpen="False"
+                                        ToolTip="Pruebas">
+                                        <StackPanel >
+                                            <Button Content="Promedio" />
+                                            <Button Content="Frecuencia" />
+                                        </StackPanel>
+                                    </materialDesign:PopupBox>
+                                </StackPanel>
+                            </Grid>
+                            <DataGrid Grid.Row="1"  Background="White" ColumnWidth="*"  x:Name="dg_numeros" Margin="5"/>
+                        </Grid>
+                        <materialDesign:DrawerHost.TopDrawerContent>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Margin="5" VerticalAlignment="Center" Text="Interaciones" />
+                                <TextBox TextAlignment="Center" TextChanged="tbx_interaciones_TextChanged" x:Name="tbx_interaciones" BorderBrush="Teal" Margin="5" VerticalAlignment="Center" MinWidth="50" />
+                                <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Margin="5"  VerticalAlignment="Center" Text="A "/>
+                                <TextBox TextAlignment="Center" TextChanged="tbx_A_TextChanged" x:Name="tbx_A" BorderBrush="{StaticResource HighlightBrush}" Margin="5"  VerticalAlignment="Center" MinWidth="50" />
+                                <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="Xn" Margin="5"  VerticalAlignment="Center" />
+                                <TextBox TextAlignment="Center" TextChanged="tbx_Xn_TextChanged" x:Name="tbx_Xn" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
+                                <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="C" Margin="5"  VerticalAlignment="Center" />
+                                <TextBox TextAlignment="Center" TextChanged="tbx_C_TextChanged" x:Name="tbx_C" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
+                                <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="M" Margin="5"  VerticalAlignment="Center" />
+                                <TextBox TextAlignment="Center" TextChanged="tbx_M_TextChanged" x:Name="tbx_M" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
+                                <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="Decimales" Margin="5"  VerticalAlignment="Center" />
+                                <TextBox TextChanged="tbx_decimales_TextChanged" x:Name= "tbx_decimales" HorizontalContentAlignment="Center"  BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50" Text="5"/>
+                                
+                            </StackPanel>
+                        </materialDesign:DrawerHost.TopDrawerContent>
+                    </materialDesign:DrawerHost>
                 </materialDesign:Card>
-                
+              
+
                 <materialDesign:Card MaxWidth="950" Margin="20">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="Teal">Demanda Mensual</TextBlock>
+                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Demanda Mensual</TextBlock>
                         <DataGrid Background="White"  AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_demandamensual_CellEditEnding" x:Name="dg_demandamensual"  Grid.Row="1" Margin="5" SelectionChanged="dg_demandamensual_SelectionChanged"/>
                     </Grid>
                 </materialDesign:Card>
@@ -80,7 +146,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="Teal">Factores Estacionales</TextBlock>
+                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Factores Estacionales</TextBlock>
                         <DataGrid Background="White" AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_factores_CellEditEnding"  x:Name="dg_factores" Grid.Row="1" Margin="5"/>
                     </Grid>
                 </materialDesign:Card>
@@ -91,7 +157,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="Teal">Tiempo de entrega</TextBlock>
+                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Tiempo de entrega</TextBlock>
                         <DataGrid Grid.Row="1" Background="White" AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_tiempoEntrega_CellEditEnding" SelectedCellsChanged="dg_tiempoEntrega_SelectedCellsChanged" SelectionChanged="dg_tiempoEntrega_SelectionChanged" x:Name="dg_tiempoEntrega" Margin="5"/>
 
                     </Grid>
@@ -103,7 +169,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="Teal">Procedimiento</TextBlock>
+                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Procedimiento</TextBlock>
                         <DataGrid Grid.Row="1" Background="White" AutoGenerateColumns="false"  x:Name="dg_procedimiento" IsReadOnly="True" ColumnWidth="*" Margin="5"/>
                     </Grid>
                 </materialDesign:Card>
@@ -114,7 +180,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Margin="5" FontSize="20" Foreground="Teal">Resultados</TextBlock>
+                        <TextBlock Margin="5" FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Resultados</TextBlock>
                         <DataGrid Background="White" Grid.Row="1"  x:Name="dg_resulatados" AutoGenerateColumns="false" ColumnWidth="*" Margin="5"/>
                     </Grid>
                    
@@ -122,7 +188,9 @@
               
             </StackPanel>
         </ScrollViewer>
-     
+        <Button Grid.Row="2" Background="Teal" Margin="5" x:Name="test" Click="test_Click" >
+            
+        </Button>
     </Grid>
     
 </Controls:MetroWindow>
