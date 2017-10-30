@@ -17,7 +17,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -25,8 +27,72 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
+        <materialDesign:Transitioner x:Name="tran_promedio" Margin="20" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" AutoApplyTransitionOrigins="True" SelectedIndex="0">
+           
+            <materialDesign:TransitionerSlide >
+                <StackPanel/>
+            </materialDesign:TransitionerSlide>
             
-        
+            <materialDesign:TransitionerSlide ClipToBounds="True">
+                <materialDesign:TransitionerSlide.OpeningEffects>
+                    <materialDesign:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
+                    <materialDesign:TransitionEffect Kind="SlideInFromBottom" OffsetTime="0:0:0.15" Duration="0:0:0.8" />
+                </materialDesign:TransitionerSlide.OpeningEffects>
+                <materialDesign:Card>
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Command="{x:Static materialDesign:Transitioner.MoveFirstCommand}"
+                                Content="{materialDesign:PackIcon StepBackward}"
+				                Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AccentBaseColorBrush}">Promedio</TextBlock>
+                        </Grid>
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Text="{Binding var_xn, StringFormat='Xn: {0}'}"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+            </materialDesign:TransitionerSlide>
+
+            <materialDesign:TransitionerSlide ClipToBounds="True">
+                <materialDesign:TransitionerSlide.OpeningEffects>
+                    <materialDesign:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
+                    <materialDesign:TransitionEffect Kind="SlideInFromBottom" OffsetTime="0:0:0.15" Duration="0:0:0.8" />
+                </materialDesign:TransitionerSlide.OpeningEffects>
+                <materialDesign:Card>
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Command="{x:Static materialDesign:Transitioner.MoveFirstCommand}"
+                                Content="{materialDesign:PackIcon StepBackward}"
+				                Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}" HorizontalAlignment="Left"/>
+                            <TextBlock Grid.Column="1" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AccentBaseColorBrush}">Frecuencia</TextBlock>
+                        </Grid>
+                        <StackPanel Grid.Row="1">
+                           
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+            </materialDesign:TransitionerSlide>
+
+        </materialDesign:Transitioner>
+
         <StackPanel  Visibility="Hidden" Background="DimGray" Orientation="Horizontal" Grid.ColumnSpan="3">
             <TextBlock Text="Inv inicial" Margin="5" Foreground="White" VerticalAlignment="Center" />
             <TextBox TextAlignment="Center" x:Name="tbx_invInicial" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
@@ -38,33 +104,10 @@
             <Button x:Name="btn_ejemplo" Content="Ejemplo" Click="btn_ejemplo_Click" BorderBrush="Transparent"/>
             <Button x:Name="btn_guardar" Click="btn_guardar_Click" Content="Guardar" BorderBrush="Transparent"/>
         </StackPanel>
-        <materialDesign:DrawerHost Grid.ColumnSpan="3" x:Name="draw">
-            <StackPanel
-			Margin="16"
-			HorizontalAlignment="Center"
-			Orientation="Horizontal">
-                <TextBlock Margin="4" VerticalAlignment="Center">TOP BANANA</TextBlock>
-                <Button
-				Margin="4"
-				VerticalAlignment="Center"
-				Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-				Style="{DynamicResource MaterialDesignFlatButton}">
-                    CLOSE ALL
-                </Button>
-                <Button
-				Margin="4"
-				VerticalAlignment="Center"
-				Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-				CommandParameter="{x:Static Dock.Top}"
-				Style="{DynamicResource MaterialDesignFlatButton}">
-                    CLOSE THIS
-                </Button>
-            </StackPanel>
-        </materialDesign:DrawerHost>
-        <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
             <StackPanel HorizontalAlignment="Center">
                
-                <materialDesign:Card MaxWidth="950" Margin="20">
+                <materialDesign:Card Margin="20">
                     <materialDesign:DrawerHost Grid.Row="2" x:Name="dwh_numeros" 
                     HorizontalAlignment="Center"
 	                VerticalAlignment="Center"
@@ -99,8 +142,8 @@
                                         StaysOpen="False"
                                         ToolTip="Pruebas">
                                         <StackPanel >
-                                            <Button Content="Promedio" />
-                                            <Button Content="Frecuencia" />
+                                            <Button x:Name="btn_promedio" Content="Promedio"  Click="btn_promedio_Click"/>
+                                            <Button x:Name="btn_frecuencia" Content="Frecuencia" Click="btn_frecuencia_Click"/>
                                         </StackPanel>
                                     </materialDesign:PopupBox>
                                 </StackPanel>
@@ -128,7 +171,7 @@
                 </materialDesign:Card>
               
 
-                <materialDesign:Card MaxWidth="950" Margin="20">
+                <materialDesign:Card Margin="20">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -140,7 +183,7 @@
                 </materialDesign:Card>
 
 
-                <materialDesign:Card MaxWidth="950" Margin="20">
+                <materialDesign:Card  Margin="20">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -151,7 +194,7 @@
                     </Grid>
                 </materialDesign:Card>
               
-                <materialDesign:Card MaxWidth="950" Margin="20">
+                <materialDesign:Card  Margin="20">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -163,7 +206,7 @@
                     </Grid>
                 </materialDesign:Card>
 
-                <materialDesign:Card MaxWidth="950" Margin="20">
+                <materialDesign:Card  Margin="20">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
@@ -174,7 +217,7 @@
                     </Grid>
                 </materialDesign:Card>
 
-                <materialDesign:Card MaxWidth="950" Margin="20">
+                <materialDesign:Card  Margin="20">
                     <Grid Margin="5">
                         <Grid.RowDefinitions>
                             <RowDefinition/>

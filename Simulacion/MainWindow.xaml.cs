@@ -27,7 +27,14 @@ namespace Simulacion
         List<TiempoDeEntregraRow> lista_tiempoEntrega;
         List<Procedimiento> lista_procedimiento;
         List<Resultados> lista_resultados;
+
+        private double A;
+        private double Xn;
+        private double C;
+        private double M;
         double SumDemanda =0;
+
+        public string var_xn { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -242,14 +249,14 @@ namespace Simulacion
                 catch { tbox.BorderBrush = Brushes.Red; }
             }
         }
-
         private void GenerarNumeros()
         {
             int decimales = int.Parse(tbx_decimales.Text);
-            double A = Math.Round(double.Parse(tbx_A.Text), decimales);
-            double Xn = Math.Round(double.Parse(tbx_Xn.Text), decimales);
-            double C = Math.Round(double.Parse(tbx_C.Text), decimales);
-            double M = Math.Round(double.Parse(tbx_M.Text), decimales);
+            A = Math.Round(double.Parse(tbx_A.Text), decimales);
+            Xn = Math.Round(double.Parse(tbx_Xn.Text), decimales);
+            var_xn = Xn.ToString();
+            C = Math.Round(double.Parse(tbx_C.Text), decimales);
+            M = Math.Round(double.Parse(tbx_M.Text), decimales);
             dg_numeros.Items.Clear();
             double Aleatorio;
             for (int i = 0; i < double.Parse(tbx_interaciones.Text); i++)
@@ -723,6 +730,21 @@ namespace Simulacion
             ValidarCampo((TextBox)sender);
             if (NotNulls())
                 GenerarNumeros();
+        }
+
+        private void btn_promedio_Click(object sender, RoutedEventArgs e)
+        {
+            if (tran_promedio.SelectedIndex != 1)
+            {
+                tran_promedio.SelectedIndex = 1;
+
+            }                
+        }
+
+        private void btn_frecuencia_Click(object sender, RoutedEventArgs e)
+        {
+            if (tran_promedio.SelectedIndex != 2)
+                tran_promedio.SelectedIndex = 2;
         }
     }
 }
