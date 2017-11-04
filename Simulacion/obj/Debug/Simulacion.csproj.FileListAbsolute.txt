@@ -23,7 +23,6 @@ C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.csproj.Cor
 C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.exe
 C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.pdb
 C:\Users\Francisco\Desktop\Simulacion\Simulacion\bin\Debug\MaterialDesignThemes.MahApps.dll
-C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.csprojResolveAssemblyReference.cache
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\Simulacion.exe.config
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\Simulacion.exe
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\Simulacion.pdb
@@ -52,3 +51,9 @@ C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.csproj.CoreCom
 C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.exe
 C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.pdb
 C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.csprojResolveAssemblyReference.cache
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\bin\Debug\ControlzEx.dll
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\bin\Debug\ControlzEx.pdb
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Pages\Ajustes.baml
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Pages\Inicio.baml
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Pages\Ajustes.g.cs
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Pages\Inicio.g.cs

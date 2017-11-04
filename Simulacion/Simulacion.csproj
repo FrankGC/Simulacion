@@ -72,9 +72,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Procedimiento.cs" />
-    <Compile Include="Resultados.cs" />
-    <Compile Include="TiempoDeEntregraRow.cs" />
+    <Compile Include="Pages\Ajustes.xaml.cs">
+      <DependentUpon>Ajustes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Inicio.xaml.cs">
+      <DependentUpon>Inicio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\Procedimiento.cs" />
+    <Compile Include="Clases\Resultados.cs" />
+    <Compile Include="Clases\TiempoDeEntregraRow.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -83,15 +89,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DemandaMensualRow.cs" />
-    <Compile Include="FactorRow.cs" />
+    <Compile Include="Clases\DemandaMensualRow.cs" />
+    <Compile Include="Clases\FactorRow.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\Ajustes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Inicio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NumeroAleatorio.cs" />
+    <Compile Include="Clases\NumeroAleatorio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
