@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d"
+      xmlns:controls="clr-namespace:WpfMath.Controls;assembly=WpfMath"
+      mc:Ignorable="d"
         Background="FloralWhite"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         MinWidth="750" MinHeight="450" Title="Ajustes">
@@ -13,9 +14,9 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="8*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -26,7 +27,14 @@
         <Button x:Name="btn_ajuestes" Click="btn_ajuestes_Click" Margin="2" Grid.Column="4" Content="{materialDesign:PackIcon Settings}"  
                 Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
                 HorizontalAlignment="Right"/>
-        
+        <TextBlock x:Name="bloque" Grid.Column="2"/>
+        <Slider
+            Grid.Row="1"
+            Grid.Column="3"
+            HorizontalAlignment="Left"
+	        Orientation="Vertical"
+	        TickFrequency="5"
+	        TickPlacement="BottomRight" x:Name="sl_main" ValueChanged="sl_main_ValueChanged" />
         <materialDesign:Transitioner x:Name="tran_promedio" Margin="20" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" AutoApplyTransitionOrigins="True" SelectedIndex="0">
 
             <materialDesign:TransitionerSlide >
@@ -56,7 +64,7 @@
                             <TextBlock Grid.Column="1" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AccentBaseColorBrush}">Promedio</TextBlock>
                         </Grid>
                         <StackPanel Grid.Row="1">
-                            <TextBlock Text="{Binding var_xn, StringFormat='Xn: {0}'}"/>
+                            
                         </StackPanel>
                     </Grid>
                 </materialDesign:Card>
@@ -72,33 +80,35 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
                             <RowDefinition/>
-                            <RowDefinition/>
+                           
                         </Grid.RowDefinitions>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
+                                <ColumnDefinition Width="0.3*"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Button Command="{x:Static materialDesign:Transitioner.MoveFirstCommand}"
                                 Content="{materialDesign:PackIcon StepBackward}"
 				                Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}" HorizontalAlignment="Left"/>
-                            <TextBlock Grid.Column="1" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AccentBaseColorBrush}">Frecuencia</TextBlock>
+                            <TextBlock Grid.Column="1" FontSize="20" TextAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource AccentBaseColorBrush}">Prueba de frecuencia</TextBlock>
                         </Grid>
-                        <materialDesign:TransitionerSlide Grid.Row="1">
-                            <materialDesign:TransitionerSlide.OpeningEffects>
-                                <materialDesign:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
-                                <materialDesign:TransitionEffect Kind="SlideInFromBottom" OffsetTime="0:0:0.15" Duration="0:0:0.8" />
-                            </materialDesign:TransitionerSlide.OpeningEffects>
-                            <StackPanel >
 
-                                <TextBlock Text="Ingresa el numero de rangos" Margin="5"/>
-                                <TextBox TextChanged="tbx_nRangos_TextChanged" x:Name="tbx_nRangos" HorizontalContentAlignment="Center"/>
-                                <TextBlock></TextBlock>
+                        <StackPanel Grid.Row="1" x:Name="stkp_frecuencia">
+                            <TextBlock MinHeight="10"/>
+                            <TextBox Margin="5" materialDesign:HintAssist.Hint="Numero de rangos" Style="{StaticResource MaterialDesignFloatingHintTextBox}" TextChanged="tbx_nRangos_TextChanged" x:Name="tbx_nRangos" HorizontalContentAlignment="Center"/>
+                            <TextBox Margin="5" materialDesign:HintAssist.Hint="Alpha" Style="{StaticResource MaterialDesignFloatingHintTextBox}" TextChanged="tbx_alpha_TextChanged" x:Name="tbx_alpha" HorizontalContentAlignment="Center" Text="0.05"/>
+                            <TextBlock MinHeight="10"/>
+                            <Viewbox>
+                                <DataGrid IsReadOnly="True" x:Name="dg_rangos" Background="White" Margin="5" AutoGenerateColumns="False"/>
+                            </Viewbox>
+                            <TextBlock MinHeight="10"/>
+                            <TextBox x:Name="tbx_formula" TextChanged="tbx_formula_TextChanged"/>
+                            <controls:FormulaControl x:Name="pizarron" HorizontalContentAlignment="Center" Formula="X_{0}^2 =\sum_{i=1}^n \frac{(FO - FE)^2}{FE}"/>
+                            <TextBlock MinHeight="10"/>
+                            <WrapPanel x:Name="wrp_frecuencia" />
 
+                        </StackPanel>
 
-                            </StackPanel>
-                        </materialDesign:TransitionerSlide>
-                        
                     </Grid>
                 </materialDesign:Card>
             </materialDesign:TransitionerSlide>
@@ -115,7 +125,7 @@
             <Button x:Name="btn_ejemplo" Content="Ejemplo" Click="btn_ejemplo_Click" BorderBrush="Transparent"/>
             <Button x:Name="btn_guardar" Click="btn_guardar_Click" Content="Guardar" BorderBrush="Transparent"/>
         </StackPanel>
-        <ScrollViewer Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer x:Name="scv_main"  Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
             <StackPanel HorizontalAlignment="Center">
 
                 <materialDesign:Card Margin="20">
@@ -159,7 +169,7 @@
                                     </materialDesign:PopupBox>
                                 </StackPanel>
                             </Grid>
-                            <DataGrid Grid.Row="1"  Background="White" ColumnWidth="*"  x:Name="dg_numeros" Margin="5"/>
+                            <DataGrid Grid.Row="1" AutoGenerateColumns="False"  Background="White" ColumnWidth="*"  x:Name="dg_numeros" Margin="5"/>
                         </Grid>
                         <materialDesign:DrawerHost.TopDrawerContent>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -242,7 +252,7 @@
 
             </StackPanel>
         </ScrollViewer>
-        <Button Grid.Row="2" Background="Teal" Margin="5" x:Name="test" Click="test_Click" >
+        <Button Grid.Row="2" Background="Teal" Margin="5,9,0,9" x:Name="test" Click="test_Click" HorizontalAlignment="Left" Width="32" >
         </Button>
     </Grid>
 </Page>

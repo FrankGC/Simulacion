@@ -1,17 +1,12 @@
-﻿using System;
+﻿using MathNet.Numerics.Distributions;
+using Simulacion.Clases;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfMath.Controls;
 
 namespace Simulacion.Pages
 {
@@ -25,12 +20,14 @@ namespace Simulacion.Pages
             InitializeComponent();
             GenerarListas();
             GenerarColumnas();
+            sl_main.Value = 10;
         }
             List<DemandaMensualRow> lista_demandamensual;
             List<FactorRow> lista_factores;
             List<TiempoDeEntregraRow> lista_tiempoEntrega;
             List<Procedimiento> lista_procedimiento;
             List<Resultados> lista_resultados;
+            List<NumeroAleatorio> lista_numeros;
 
             private double A;
             private double Xn;
@@ -50,6 +47,8 @@ namespace Simulacion.Pages
                 dg_procedimiento.ItemsSource = lista_procedimiento;
                 lista_resultados = new List<Resultados>();
                 dg_resulatados.ItemsSource = lista_resultados;
+                lista_numeros = new List<NumeroAleatorio>();
+                dg_numeros.ItemsSource = lista_numeros;
             }
 
             private void GenerarColumnas()
@@ -186,6 +185,28 @@ namespace Simulacion.Pages
                 mejorOpcion.Binding = new Binding("mejorOpcion");
                 dg_resulatados.Columns.Add(mejorOpcion);
 
+                //Rangos
+                DataGridTextColumn nRango = new DataGridTextColumn();
+                nRango.Header = "N";
+                nRango.Binding = new Binding("posicion");
+                dg_rangos.Columns.Add(nRango);
+                DataGridTextColumn lim_inf = new DataGridTextColumn();
+                lim_inf.Header = "Limite Inferior";
+                lim_inf.Binding = new Binding("LimiteInferior");
+                dg_rangos.Columns.Add(lim_inf);
+                DataGridTextColumn lim_sup = new DataGridTextColumn();
+                lim_sup.Header = "Limite Superior";
+                lim_sup.Binding = new Binding("LimiteSuperior");
+                dg_rangos.Columns.Add(lim_sup);
+                DataGridTextColumn frecuenciaEsperada = new DataGridTextColumn();
+                frecuenciaEsperada.Header = "Frecuencia esperada";
+                frecuenciaEsperada.Binding = new Binding("FrecuenciaEsperada");
+                dg_rangos.Columns.Add(frecuenciaEsperada);
+                DataGridTextColumn frecuenciaObenida = new DataGridTextColumn();
+                frecuenciaObenida.Header = "Frecuencia obtenida";
+                frecuenciaObenida.Binding = new Binding("FrecuenciaObtenida");              
+                dg_rangos.Columns.Add(frecuenciaObenida);
+
             }
 
             private void CargarSemillaTiempoEntrega()
@@ -252,7 +273,7 @@ namespace Simulacion.Pages
                 Xn = Math.Round(double.Parse(tbx_Xn.Text), decimales);
                 C = Math.Round(double.Parse(tbx_C.Text), decimales);
                 M = Math.Round(double.Parse(tbx_M.Text), decimales);
-                dg_numeros.Items.Clear();
+                lista_numeros.Clear();
                 double Aleatorio;
                 for (int i = 0; i < double.Parse(tbx_interaciones.Text); i++)
                 {
@@ -261,8 +282,10 @@ namespace Simulacion.Pages
                         Aleatorio = Math.Round(Aleatorio = Xn / M, decimales);
                     else
                         Aleatorio = 0;
-                    dg_numeros.Items.Add(new NumeroAleatorio { no = (i + 1).ToString(), numero = Aleatorio.ToString() });
+                    lista_numeros.Add(new NumeroAleatorio { no = (i + 1).ToString(), numero = Aleatorio.ToString() });
+                    
                 }
+                dg_numeros.Items.Refresh();
             }
 
             private void tbx_interaciones_TextChanged(object sender, TextChangedEventArgs e)
@@ -603,20 +626,18 @@ namespace Simulacion.Pages
 
             private void ejemplo()
             {
+            
                 lista_demandamensual.Clear();
                 lista_tiempoEntrega.Clear();
                 lista_procedimiento.Clear();
+                
                 lista_factores.Clear();
-                dg_numeros.Items.Clear();
 
                 tbx_A.Text = "101";
                 tbx_C.Text = "221";
                 tbx_interaciones.Text = "100";
                 tbx_Xn.Text = "17";
                 tbx_M.Text = "15001";
-
-
-
 
                 lista_demandamensual.Add(new DemandaMensualRow { cantidad = 35.ToString(), probabilidad = 0.010.ToString() });
                 lista_demandamensual.Add(new DemandaMensualRow { cantidad = 36.ToString(), probabilidad = 0.015.ToString() });
@@ -662,14 +683,18 @@ namespace Simulacion.Pages
                 lista_tiempoEntrega.Add(new TiempoDeEntregraRow { mes = 2.ToString(), probabilidad = 0.40.ToString() });
                 lista_tiempoEntrega.Add(new TiempoDeEntregraRow { mes = 3.ToString(), probabilidad = 0.30.ToString() });
 
+                
+                tbx_Q.Text = "100";
+                tbx_R.Text = "120";
+                tbx_invInicial.Text = "200";
+                tbx_nRangos.Text = "4";
+
                 dg_demandamensual.Items.Refresh();
                 dg_factores.Items.Refresh();
                 dg_tiempoEntrega.Items.Refresh();
                 dg_procedimiento.Items.Refresh();
-                tbx_Q.Text = "100";
-                tbx_R.Text = "120";
-                tbx_invInicial.Text = "200";
-            }
+                dg_numeros.Items.Refresh();
+        }
 
             private void btn_ejemplo_Click(object sender, RoutedEventArgs e)
             {
@@ -764,17 +789,64 @@ namespace Simulacion.Pages
 
         private void tbx_nRangos_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(ValidarCampo((TextBox)sender)&&dg_numeros.Items.Count>0)
+            if (ValidarCampo((TextBox)sender))
+                RealizarPruebaDeFrecuencia();
+            
+        }
+
+        private void RealizarPruebaDeFrecuencia()
+        {
+            if (lista_numeros.Count > 0)
             {
-                int NumerosTotales = int.Parse(((NumeroAleatorio) dg_numeros.Items[dg_numeros.Items.Count - 1]).no);
-                
-                foreach (NumeroAleatorio item in dg_numeros.Items)
+                wrp_frecuencia.Children.Clear();
+                int NumeroDeRangos = int.Parse(tbx_nRangos.Text);
+                PruebaFrecuencia P1 = new PruebaFrecuencia(lista_numeros, NumeroDeRangos);
+                List<Rango> listaRangos = P1.CalcularRangos();
+                dg_rangos.ItemsSource = listaRangos;
+                dg_rangos.Items.Refresh();
+                double xo = 0;
+                foreach (Rango rango in listaRangos)
                 {
+                    if (rango.posicion == 1)
+                        wrp_frecuencia.Children.Add(new FormulaControl() { Formula = @"= \frac{(" + rango.FrecuenciaObtenida.ToString() + " - " + rango.FrecuenciaEsperada.ToString() + ")^2}{" + rango.FrecuenciaEsperada.ToString() + "}", Margin = new Thickness(5) });
+                    else
+                        wrp_frecuencia.Children.Add(new FormulaControl() { Formula = @" + \frac{(" + rango.FrecuenciaObtenida.ToString() + " - " + rango.FrecuenciaEsperada.ToString() + ")^2}{" + rango.FrecuenciaEsperada.ToString() + "}", Margin = new Thickness(5) });
+                    xo += Math.Pow(rango.FrecuenciaObtenida - rango.FrecuenciaEsperada, 2) / rango.FrecuenciaEsperada;
+                }
+                if(listaRangos.Count>0)
+                ((FormulaControl)wrp_frecuencia.Children[wrp_frecuencia.Children.Count - 1]).Formula += " = " + Math.Round(xo, 2);
+
+                if(stkp_frecuencia.Children.Count>10) 
+                    stkp_frecuencia.Children.RemoveRange(10, stkp_frecuencia.Children.Count-10);
+
+                    stkp_frecuencia.Children.Add(new FormulaControl() { Formula = " X_{0}^2 = " + Math.Round(xo, 2), Margin = new Thickness(5) });
+                if (ValidarCampo(tbx_alpha))
+                {
+                    try
+                    {
+                        ChiSquared c = new ChiSquared(double.Parse(tbx_nRangos.Text)-1);
+                        stkp_frecuencia.Children.Add(new FormulaControl() { Formula = " X^2 = (" + tbx_alpha.Text + "," + (int.Parse(tbx_nRangos.Text) - 1) + ") = " + Math.Round(c.InverseCumulativeDistribution(double.Parse(tbx_alpha.Text)), 4), Margin = new Thickness(5) });
+                    } catch { }              
                    
                 }
-               
+                    
             }
-            
+        }
+
+        private void sl_main_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            scv_main.ScrollToVerticalOffset(scv_main.ScrollableHeight-(sl_main.Value*(scv_main.ScrollableHeight / 10)) );
+            bloque.Text = "Max: "+scv_main.ScrollableHeight.ToString()+ "ACT: "+sl_main.Value.ToString();
+        }
+
+        private void tbx_formula_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            pizarron.Formula = tbx_formula.Text;
+        }
+
+        private void tbx_alpha_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
