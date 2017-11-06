@@ -6,6 +6,7 @@
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:controls="clr-namespace:WpfMath.Controls;assembly=WpfMath"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d"
         Background="FloralWhite"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -22,7 +23,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Button x:Name="btn_ajuestes" Click="btn_ajuestes_Click" Margin="2" Grid.Column="4" Content="{materialDesign:PackIcon Settings}"  
                 Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
@@ -70,7 +70,7 @@
                 </materialDesign:Card>
             </materialDesign:TransitionerSlide>
 
-            <materialDesign:TransitionerSlide ClipToBounds="True">
+            <materialDesign:TransitionerSlide ClipToBounds="True" Margin="5">
                 <materialDesign:TransitionerSlide.OpeningEffects>
                     <materialDesign:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
                     <materialDesign:TransitionEffect Kind="SlideInFromBottom" OffsetTime="0:0:0.15" Duration="0:0:0.8" />
@@ -95,18 +95,27 @@
 
                         <StackPanel Grid.Row="1" x:Name="stkp_frecuencia">
                             <TextBlock MinHeight="10"/>
-                            <TextBox Margin="5" materialDesign:HintAssist.Hint="Numero de rangos" Style="{StaticResource MaterialDesignFloatingHintTextBox}" TextChanged="tbx_nRangos_TextChanged" x:Name="tbx_nRangos" HorizontalContentAlignment="Center"/>
-                            <TextBox Margin="5" materialDesign:HintAssist.Hint="Alpha" Style="{StaticResource MaterialDesignFloatingHintTextBox}" TextChanged="tbx_alpha_TextChanged" x:Name="tbx_alpha" HorizontalContentAlignment="Center" Text="0.05"/>
+                            <ComboBox MinWidth="72" SelectionChanged="cbx_nRangos_SelectionChanged" x:Name="cbx_nRangos" materialDesign:HintAssist.Hint="Rangos" Style="{StaticResource MaterialDesignFloatingHintComboBox}"/>
+                            <ComboBox MinWidth="72" SelectedIndex="6" SelectionChanged="cbx_alpha_SelectionChanged" x:Name="cbx_alpha" materialDesign:HintAssist.Hint="Alpha" Style="{StaticResource MaterialDesignFloatingHintComboBox}">
+                                <sys:Double>0.995</sys:Double>
+                                <sys:Double>0.99</sys:Double>
+                                <sys:Double>0.975</sys:Double>
+                                <sys:Double>0.95</sys:Double>
+                                <sys:Double>0.90</sys:Double>
+                                <sys:Double>0.10</sys:Double>
+                                <sys:Double>0.05</sys:Double>
+                                <sys:Double>0.025</sys:Double>
+                                <sys:Double>0.01</sys:Double>
+                                <sys:Double>0.005</sys:Double>
+                            </ComboBox>
                             <TextBlock MinHeight="10"/>
                             <Viewbox>
                                 <DataGrid IsReadOnly="True" x:Name="dg_rangos" Background="White" Margin="5" AutoGenerateColumns="False"/>
                             </Viewbox>
                             <TextBlock MinHeight="10"/>
-                            <TextBox x:Name="tbx_formula" TextChanged="tbx_formula_TextChanged"/>
                             <controls:FormulaControl x:Name="pizarron" HorizontalContentAlignment="Center" Formula="X_{0}^2 =\sum_{i=1}^n \frac{(FO - FE)^2}{FE}"/>
                             <TextBlock MinHeight="10"/>
-                            <WrapPanel x:Name="wrp_frecuencia" />
-
+                            <WrapPanel HorizontalAlignment="Center" x:Name="wrp_frecuencia" />
                         </StackPanel>
 
                     </Grid>
@@ -185,7 +194,6 @@
                                 <TextBox TextAlignment="Center" TextChanged="tbx_M_TextChanged" x:Name="tbx_M" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
                                 <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="Decimales" Margin="5"  VerticalAlignment="Center" />
                                 <TextBox TextChanged="tbx_decimales_TextChanged" x:Name= "tbx_decimales" HorizontalContentAlignment="Center"  BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50" Text="5"/>
-
                             </StackPanel>
                         </materialDesign:DrawerHost.TopDrawerContent>
                     </materialDesign:DrawerHost>
@@ -252,7 +260,7 @@
 
             </StackPanel>
         </ScrollViewer>
-        <Button Grid.Row="2" Background="Teal" Margin="5,9,0,9" x:Name="test" Click="test_Click" HorizontalAlignment="Left" Width="32" >
+        <Button  Background="Teal" Margin="5,9,0,9" x:Name="test" Click="test_Click" HorizontalAlignment="Left" Width="32" >
         </Button>
     </Grid>
 </Page>

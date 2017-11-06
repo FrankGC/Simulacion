@@ -61,8 +61,7 @@ C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Pages\Inicio.baml
 C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Pages\Ajustes.g.cs
 C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Pages\Inicio.g.cs
 C:\Users\galva\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.csprojResolveAssemblyReference.cache
-C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\MathNet.Numerics.dll
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.dll
-C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\MathNet.Numerics.xml
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.pdb
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.xml
+C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\StatsN.Contracts.dll
