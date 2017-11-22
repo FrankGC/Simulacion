@@ -274,60 +274,29 @@ namespace Simulacion.Pages
         }
             private void GenerarNumeros()
             {
-                int decimales = int.Parse(tbx_decimales.Text);
-                A = Math.Round(double.Parse(tbx_A.Text), decimales);
-                Xn = Math.Round(double.Parse(tbx_Xn.Text), decimales);
-                C = Math.Round(double.Parse(tbx_C.Text), decimales);
-                M = Math.Round(double.Parse(tbx_M.Text), decimales);
-                lista_numeros.Clear();
-                double Aleatorio;
-                for (int i = 0; i < double.Parse(tbx_interaciones.Text); i++)
+                if(NotNulls())
                 {
-                    Xn = ((A * Xn) + C) % M;
-                    if (Xn > 0)
-                        Aleatorio = Math.Round(Aleatorio = Xn / M, decimales);
-                    else
-                        Aleatorio = 0;
-                    lista_numeros.Add(new NumeroAleatorio { no = (i + 1).ToString(), numero = Aleatorio.ToString() });
-                    
-                }
-                dg_numeros.Items.Refresh();
-                RealizarPruebaDeFrecuencia();
-            }
+                    int decimales = int.Parse(tbx_decimales.Text);
+                    A = Math.Round(double.Parse(tbx_A.Text), decimales);
+                    Xn = Math.Round(double.Parse(tbx_Xn.Text), decimales);
+                    C = Math.Round(double.Parse(tbx_C.Text), decimales);
+                    M = Math.Round(double.Parse(tbx_M.Text), decimales);
+                    lista_numeros.Clear();
+                    double Aleatorio;
+                    for (int i = 0; i < double.Parse(tbx_interaciones.Text); i++)
+                    {
+                        Xn = ((A * Xn) + C) % M;
+                        if (Xn > 0)
+                            Aleatorio = Math.Round(Aleatorio = Xn / M, decimales);
+                        else
+                            Aleatorio = 0;
+                        lista_numeros.Add(new NumeroAleatorio { no = (i + 1).ToString(), numero = Aleatorio.ToString() });
 
-            private void tbx_interaciones_TextChanged(object sender, TextChangedEventArgs e)
-            {
-                ValidarCampo((TextBox)sender);
-                if (NotNulls())
-                    GenerarNumeros();
-            }
-
-            private void tbx_A_TextChanged(object sender, TextChangedEventArgs e)
-            {
-                ValidarCampo((TextBox)sender);
-                if (NotNulls())
-                    GenerarNumeros();
-            }
-
-            private void tbx_Xn_TextChanged(object sender, TextChangedEventArgs e)
-            {
-                ValidarCampo((TextBox)sender);
-                if (NotNulls())
-                    GenerarNumeros();
-            }
-
-            private void tbx_C_TextChanged(object sender, TextChangedEventArgs e)
-            {
-                ValidarCampo((TextBox)sender);
-                if (NotNulls())
-                    GenerarNumeros();
-            }
-
-            private void tbx_M_TextChanged(object sender, TextChangedEventArgs e)
-            {
-                ValidarCampo((TextBox)sender);
-                if (NotNulls())
-                    GenerarNumeros();
+                    }
+                    dg_numeros.Items.Refresh();
+                    RealizarPruebaDeFrecuencia();
+                }           
+               
             }
 
             private void dg_demandamensual_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -342,14 +311,22 @@ namespace Simulacion.Pages
                 catch { celda.Text = 0.ToString(); }
             }
 
-            private void dg_demandamensual_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            private void RealizarProcedimiento()
             {
                 if (ValidadProbabilidadDemanda() == true)
                 {
                     ProbabilidadAcumuladaDemanda();
-                    Procedimiento();
+                    if (ValidarCamposProcedimiento())
+                        Procedimiento();
                 }
+            }
 
+            private void dg_demandamensual_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            {
+                try
+                {
+                    RealizarProcedimiento();
+                }catch { }
             }
 
             private bool ValidadProbabilidadDemanda()
@@ -617,6 +594,7 @@ namespace Simulacion.Pages
             private void dg_tiempoEntrega_SelectionChanged(object sender, SelectionChangedEventArgs e)
             {
                 TiempoDeEntrega();
+            
             }
 
             private void TiempoDeEntrega()
@@ -628,7 +606,7 @@ namespace Simulacion.Pages
                 lista_tiempoEntrega[2].lim_inicial = lista_tiempoEntrega[1].lim_final;
                 lista_tiempoEntrega[2].lim_final = (double.Parse(lista_tiempoEntrega[2].probabilidad) + double.Parse(lista_tiempoEntrega[2].lim_inicial)).ToString();
                 dg_tiempoEntrega.Items.Refresh();
-                dg_tiempoEntrega.Focus();
+               
             }
 
             private void ejemplo()
@@ -694,35 +672,23 @@ namespace Simulacion.Pages
                 tbx_Q.Text = "100";
                 tbx_R.Text = "120";
                 tbx_invInicial.Text = "200";
+                GenerarNumeros();
                 dg_demandamensual.Items.Refresh();
                 dg_factores.Items.Refresh();
                 dg_tiempoEntrega.Items.Refresh();
                 dg_procedimiento.Items.Refresh();
                 dg_numeros.Items.Refresh();
-        }
-
-            private void btn_ejemplo_Click(object sender, RoutedEventArgs e)
-            {
-                ejemplo();
-                TiempoDeEntrega();
-                if (ValidadProbabilidadDemanda() == true)
-                {
-                    ProbabilidadAcumuladaDemanda();
-                    Procedimiento();
-                    tbx_invInicial.Text = "";
-                    tbx_Q.Text = "";
-                    tbx_R.Text = "";
-
-                }
-
             }
+
+          
 
             private void btn_guardar_Click(object sender, RoutedEventArgs e)
             {
                 if (tbx_invInicial.Text != "" && tbx_Q.Text != "" && tbx_R.Text != "")
                 {
                     lista_procedimiento.Clear();
-                    Procedimiento();
+                    if(ValidarCamposProcedimiento())
+                        Procedimiento();
                     double mayor = 0;
                     mayor = double.Parse(lista_resultados[0].Cost_total);
                     foreach (Resultados fila in lista_resultados)
@@ -750,11 +716,20 @@ namespace Simulacion.Pages
             private void test_Click(object sender, RoutedEventArgs e)
             {
                 ejemplo();
+                TiempoDeEntrega();
+                RealizarProcedimiento();
             }
 
             private void btn_helpNumeros_Click(object sender, RoutedEventArgs e)
             {
+                mostrarAyuda("Numeros", "Muestra cierta cantidad de numeros aleatorios generados por el programa con los cuales se trabajan en las pruebas,  a partir de estos numeros las iteraciones van creando resultados para la simulacion");
+            }
 
+            private void mostrarAyuda(string titulo,string descripcion)
+            {
+                tran_promedio.SelectedIndex = 3;
+                tbl_helpTitle.Text = titulo;
+                tbl_help.Text = descripcion;
             }
 
             private void btn_editarNumeros_Click(object sender, RoutedEventArgs e)
@@ -763,13 +738,6 @@ namespace Simulacion.Pages
                     dwh_numeros.IsTopDrawerOpen = true;
                 else
                     dwh_numeros.IsTopDrawerOpen = false;
-            }
-
-            private void tbx_decimales_TextChanged(object sender, TextChangedEventArgs e)
-            {
-                ValidarCampo((TextBox)sender);
-                if (NotNulls())
-                    GenerarNumeros();
             }
 
             private void btn_promedio_Click(object sender, RoutedEventArgs e)
@@ -888,8 +856,7 @@ namespace Simulacion.Pages
 
         private void sl_main_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            scv_main.ScrollToVerticalOffset(scv_main.ScrollableHeight-(sl_main.Value*(scv_main.ScrollableHeight / 10)) );
-            bloque.Text = "Max: "+scv_main.ScrollableHeight.ToString()+ "ACT: "+sl_main.Value.ToString();
+           
         }
 
         private void cbx_nRangos_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -908,6 +875,75 @@ namespace Simulacion.Pages
                 RealizarPruebaDeFrecuencia();
             }
             catch { }
+        }
+
+        private void CheckEnter(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                if (ValidarCampo((TextBox)sender))
+                    GenerarNumeros();
+            }
+        }
+
+        private void tbx_interaciones_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            CheckEnter(sender, e);
+        }
+
+        private void tbx_A_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            CheckEnter(sender, e);
+        }
+
+        private void tbx_Xn_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            CheckEnter(sender, e);
+        }
+
+        private void tbx_C_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            CheckEnter(sender, e);
+        }
+
+        private void tbx_M_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            CheckEnter(sender, e);
+        }
+
+        private void tbx_decimales_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            CheckEnter(sender, e);
+        }
+
+        private void scv_main_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+           
+        }
+
+        private void btn_helpPromedio_Click(object sender, RoutedEventArgs e)
+        {
+            mostrarAyuda("Demanda mensual", "Se muestra los requerimientos de materia prima en el inventario al final del mes, con estos  resultados se observa las posibles  demandas en cada lapso de tiempo.");
+        }
+
+        private void btn_helpFactores_Click(object sender, RoutedEventArgs e)
+        {
+            mostrarAyuda("Factores estacionales", "Para crear iteraciones con ciertos parametros establecidos, se establecen lapsos de tiempo definidos, a partir de estos factores estacionales se generan resultados.");
+        }
+
+        private void btn_helpTiempo_Click(object sender, RoutedEventArgs e)
+        {
+            mostrarAyuda("Tiempo de entrega","Con los factores estacionales ya establecidos se producen resultados en los tiempos de entrega, Aqui se observa el resultado de los calculos realizados.");
+        }
+
+        private void btn_helpProcedimiento_Click(object sender, RoutedEventArgs e)
+        {
+            mostrarAyuda("Procedimiento", "Se muestra ciertos factores los cuales influyen en los resultados de las iteraciones realizadas.");
+        }
+
+        private void btn_helpResultados_Click(object sender, RoutedEventArgs e)
+        {
+            mostrarAyuda("Resultados", "Se muestran los resultados obtenidos con las iteraciones, de esta manera se aprecian de mejor manera y se analizan a detalle.");
         }
     }
 }

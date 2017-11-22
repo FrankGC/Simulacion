@@ -65,3 +65,8 @@ C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.dll
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.pdb
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.xml
 C:\Users\galva\Desktop\Simulacion\Simulacion\bin\Debug\StatsN.Contracts.dll
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\bin\Debug\StatsN.Contracts.dll
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.dll
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.pdb
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\bin\Debug\WpfMath.xml
+C:\Users\Francisco\Desktop\Simulacion\Simulacion\obj\Debug\Simulacion.csprojResolveAssemblyReference.cache

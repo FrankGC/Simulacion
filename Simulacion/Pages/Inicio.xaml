@@ -12,6 +12,7 @@
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         MinWidth="750" MinHeight="450" Title="Ajustes">
 
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -24,10 +25,11 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <Button x:Name="btn_ajuestes" Click="btn_ajuestes_Click" Margin="2" Grid.Column="4" Content="{materialDesign:PackIcon Settings}"  
                 Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}"
                 HorizontalAlignment="Right"/>
-        <TextBlock x:Name="bloque" Grid.Column="2"/>
+       
         <Slider
             Grid.Row="1"
             Grid.Column="3"
@@ -64,7 +66,7 @@
                             <TextBlock Grid.Column="1" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AccentBaseColorBrush}">Promedio</TextBlock>
                         </Grid>
                         <StackPanel Grid.Row="1">
-                            
+
                         </StackPanel>
                     </Grid>
                 </materialDesign:Card>
@@ -80,7 +82,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
                             <RowDefinition/>
-                           
+
                         </Grid.RowDefinitions>
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -122,7 +124,37 @@
                 </materialDesign:Card>
             </materialDesign:TransitionerSlide>
 
+            <materialDesign:TransitionerSlide ClipToBounds="True">
+                <materialDesign:TransitionerSlide.OpeningEffects>
+                    <materialDesign:TransitionEffect Kind="SlideInFromLeft" Duration="0:0:0.8" />
+                    <materialDesign:TransitionEffect Kind="SlideInFromBottom" OffsetTime="0:0:0.15" Duration="0:0:0.8" />
+                </materialDesign:TransitionerSlide.OpeningEffects>
+                <materialDesign:Card>
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Command="{x:Static materialDesign:Transitioner.MoveFirstCommand}"
+                                Content="{materialDesign:PackIcon StepBackward}"
+				                Style="{DynamicResource MaterialDesignFloatingActionMiniLightButton}" HorizontalAlignment="Left"/>
+                            <TextBlock  x:Name="tbl_helpTitle" Grid.Column="1" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource AccentBaseColorBrush}">Promedio</TextBlock>
+                        </Grid>
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Margin="9" TextWrapping="Wrap" x:Name="tbl_help"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+            </materialDesign:TransitionerSlide>
+
         </materialDesign:Transitioner>
+
         <StackPanel  Visibility="Hidden" Background="DimGray" Orientation="Horizontal" Grid.ColumnSpan="3">
             <TextBlock Text="Inv inicial" Margin="5" Foreground="White" VerticalAlignment="Center" />
             <TextBox TextAlignment="Center" x:Name="tbx_invInicial" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
@@ -131,10 +163,10 @@
             <TextBlock Text="Q" Margin="5" Foreground="White" VerticalAlignment="Center" />
             <TextBox TextAlignment="Center" x:Name="tbx_R" BorderBrush="Teal" Margin="5" Foreground="White" VerticalAlignment="Center" MinWidth="100"/>
 
-            <Button x:Name="btn_ejemplo" Content="Ejemplo" Click="btn_ejemplo_Click" BorderBrush="Transparent"/>
+            
             <Button x:Name="btn_guardar" Click="btn_guardar_Click" Content="Guardar" BorderBrush="Transparent"/>
         </StackPanel>
-        <ScrollViewer x:Name="scv_main"  Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer x:Name="scv_main"  Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Hidden" ScrollChanged="scv_main_ScrollChanged">
             <StackPanel HorizontalAlignment="Center">
 
                 <materialDesign:Card Margin="20">
@@ -154,7 +186,7 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Numeros</TextBlock>
+                                <TextBlock FontSize="20" Text="Numeros" Foreground="{StaticResource AccentBaseColorBrush}"/>
                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
 
                                     <Button x:Name="btn_editarNumeros" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" 
@@ -183,17 +215,17 @@
                         <materialDesign:DrawerHost.TopDrawerContent>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                 <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Margin="5" VerticalAlignment="Center" Text="Interaciones" />
-                                <TextBox TextAlignment="Center" TextChanged="tbx_interaciones_TextChanged" x:Name="tbx_interaciones" BorderBrush="Teal" Margin="5" VerticalAlignment="Center" MinWidth="50" />
+                                <TextBox TextAlignment="Center" KeyDown="tbx_interaciones_KeyDown" x:Name="tbx_interaciones" BorderBrush="Teal" Margin="5" VerticalAlignment="Center" MinWidth="50" />
                                 <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Margin="5"  VerticalAlignment="Center" Text="A "/>
-                                <TextBox TextAlignment="Center" TextChanged="tbx_A_TextChanged" x:Name="tbx_A" BorderBrush="{StaticResource HighlightBrush}" Margin="5"  VerticalAlignment="Center" MinWidth="50" />
+                                <TextBox TextAlignment="Center" KeyDown="tbx_A_KeyDown" x:Name="tbx_A" BorderBrush="{StaticResource HighlightBrush}" Margin="5"  VerticalAlignment="Center" MinWidth="50" />
                                 <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="Xn" Margin="5"  VerticalAlignment="Center" />
-                                <TextBox TextAlignment="Center" TextChanged="tbx_Xn_TextChanged" x:Name="tbx_Xn" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
+                                <TextBox TextAlignment="Center" KeyDown="tbx_Xn_KeyDown" x:Name="tbx_Xn" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
                                 <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="C" Margin="5"  VerticalAlignment="Center" />
-                                <TextBox TextAlignment="Center" TextChanged="tbx_C_TextChanged" x:Name="tbx_C" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
+                                <TextBox TextAlignment="Center" KeyDown="tbx_C_KeyDown" x:Name="tbx_C" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
                                 <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="M" Margin="5"  VerticalAlignment="Center" />
-                                <TextBox TextAlignment="Center" TextChanged="tbx_M_TextChanged" x:Name="tbx_M" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
+                                <TextBox TextAlignment="Center" KeyDown="tbx_M_KeyDown"  x:Name="tbx_M" BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50"/>
                                 <TextBlock Foreground="{StaticResource AccentBaseColorBrush}" Text="Decimales" Margin="5"  VerticalAlignment="Center" />
-                                <TextBox TextChanged="tbx_decimales_TextChanged" x:Name= "tbx_decimales" HorizontalContentAlignment="Center"  BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50" Text="5"/>
+                                <TextBox KeyDown="tbx_decimales_KeyDown" x:Name= "tbx_decimales" HorizontalContentAlignment="Center"  BorderBrush="{StaticResource HighlightBrush}"  Margin="5"  VerticalAlignment="Center" MinWidth="50" Text="5"/>
                             </StackPanel>
                         </materialDesign:DrawerHost.TopDrawerContent>
                     </materialDesign:DrawerHost>
@@ -206,7 +238,19 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Demanda Mensual</TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Demanda Mensual</TextBlock>
+                            <Button Grid.Column="1" HorizontalAlignment="Right" x:Name="btn_helpPromedio" Click="btn_helpPromedio_Click" 
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Margin="2" ToolTip="Ayuda">
+                                <materialDesign:PackIcon Kind="Information" />
+                            </Button>
+                        </Grid>
+
                         <DataGrid Background="White"  AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_demandamensual_CellEditEnding" x:Name="dg_demandamensual"  Grid.Row="1" Margin="5" SelectionChanged="dg_demandamensual_SelectionChanged"/>
                     </Grid>
                 </materialDesign:Card>
@@ -218,7 +262,18 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Factores Estacionales</TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Factores estacionales</TextBlock>
+                            <Button Grid.Column="1" HorizontalAlignment="Right" x:Name="btn_helpFactores" Click="btn_helpFactores_Click" 
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Margin="0,2,2,0" ToolTip="Ayuda" VerticalAlignment="Top">
+                                <materialDesign:PackIcon Kind="Information" />
+                            </Button>
+                        </Grid>
                         <DataGrid Background="White" AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_factores_CellEditEnding"  x:Name="dg_factores" Grid.Row="1" Margin="5"/>
                     </Grid>
                 </materialDesign:Card>
@@ -229,7 +284,18 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Tiempo de entrega</TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Tiempo de entrega</TextBlock>
+                            <Button Grid.Column="1" HorizontalAlignment="Right" x:Name="btn_helpTiempo" Click="btn_helpTiempo_Click" 
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Margin="0,2,2,0" ToolTip="Ayuda" VerticalAlignment="Top">
+                                <materialDesign:PackIcon Kind="Information" />
+                            </Button>
+                        </Grid>
                         <DataGrid Grid.Row="1" Background="White" AutoGenerateColumns="false" ColumnWidth="*" CellEditEnding="dg_tiempoEntrega_CellEditEnding" SelectedCellsChanged="dg_tiempoEntrega_SelectedCellsChanged" SelectionChanged="dg_tiempoEntrega_SelectionChanged" x:Name="dg_tiempoEntrega" Margin="5"/>
 
                     </Grid>
@@ -241,7 +307,18 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Procedimiento</TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Procedimiento</TextBlock>
+                            <Button Grid.Column="1" HorizontalAlignment="Right" x:Name="btn_helpProcedimiento" Click="btn_helpProcedimiento_Click" 
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Margin="0,2,2,0" ToolTip="Ayuda" VerticalAlignment="Top">
+                                <materialDesign:PackIcon Kind="Information" />
+                            </Button>
+                        </Grid>
                         <DataGrid Grid.Row="1" Background="White" AutoGenerateColumns="false"  x:Name="dg_procedimiento" IsReadOnly="True" ColumnWidth="*" Margin="5"/>
                     </Grid>
                 </materialDesign:Card>
@@ -252,7 +329,18 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBlock Margin="5" FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Resultados</TextBlock>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="20" Foreground="{StaticResource AccentBaseColorBrush}">Resultados</TextBlock>
+                            <Button Grid.Column="1" HorizontalAlignment="Right" x:Name="btn_helpResultados" Click="btn_helpResultados_Click" 
+                                            Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
+                                            Margin="0,2,2,0" ToolTip="Ayuda" VerticalAlignment="Top">
+                                <materialDesign:PackIcon Kind="Information" />
+                            </Button>
+                        </Grid>
                         <DataGrid Background="White" Grid.Row="1"  x:Name="dg_resulatados" AutoGenerateColumns="false" ColumnWidth="*" Margin="5"/>
                     </Grid>
 
@@ -260,7 +348,7 @@
 
             </StackPanel>
         </ScrollViewer>
-        <Button  Background="Teal" Margin="5,9,0,9" x:Name="test" Click="test_Click" HorizontalAlignment="Left" Width="32" >
+        <Button Content="Ejemplo"  Grid.Column="2" Background="Teal" Margin="5,9,0,9" x:Name="test" Click="test_Click" HorizontalAlignment="Center" >
         </Button>
     </Grid>
 </Page>
