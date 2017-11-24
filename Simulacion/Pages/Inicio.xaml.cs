@@ -295,6 +295,7 @@ namespace Simulacion.Pages
                     }
                     dg_numeros.Items.Refresh();
                     RealizarPruebaDeFrecuencia();
+                    pb_pruebas.IsEnabled = true;
                 }           
                
             }
@@ -748,12 +749,12 @@ namespace Simulacion.Pages
                     double sumatoria = 0;
                     foreach (NumeroAleatorio numero in lista_numeros)
                         sumatoria += double.Parse(numero.numero);
-                    double total = sumatoria /lista_numeros.Count();
+                    sumatoria = Math.Round(sumatoria, 2);
+                    double total = Math.Round(sumatoria /lista_numeros.Count(),4);
                     frm_promedio.Formula = "X=\\sum_{i=1}^n \\frac{"+sumatoria+"}{" + lista_numeros.Count() + "} = "+total;
-
-                    double total2 = ((total - 0.5)*Math.Pow(lista_numeros.Count,0.5))/Math.Pow((1/12),0.5);
-                MessageBox.Show(Math.Round(total2, 2).ToString());
-
+                    double total2 = ((total - 0.5)*Math.Pow(lista_numeros.Count,0.5))/Math.Pow(0.083,0.5);
+                    if (total2 < 0)
+                        total2 *= -1;
                     frm_zo.Formula = "Z_o = \\left|\\frac{("+total+"-1/2) \\sqrt{"+lista_numeros.Count()+"}}{\\sqrt{1/12}} \\right| ="+ Math.Round(total2,2);
                 }
             }
