@@ -719,6 +719,10 @@ namespace Simulacion.Pages
                 ejemplo();
                 TiempoDeEntrega();
                 RealizarProcedimiento();
+                tbx_invInicial.Text = "";
+                tbx_Q.Text = "";
+                tbx_R.Text = "";
+
             }
 
             private void btn_helpNumeros_Click(object sender, RoutedEventArgs e)
